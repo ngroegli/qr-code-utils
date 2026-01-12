@@ -1,8 +1,8 @@
 """WhatsApp QR code generator."""
 
 from typing import Optional
-from .base import BaseQRGenerator
 import urllib.parse
+from .base import BaseQRGenerator
 
 
 class WhatsAppQRGenerator(BaseQRGenerator):

@@ -1,12 +1,14 @@
 """Base QR code generator."""
 
 from __future__ import annotations
-import qrcode
-import qrcode.constants
-from PIL import Image
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, Any, TYPE_CHECKING
 from abc import ABC, abstractmethod
+import qrcode
+import qrcode.constants
+from PIL import Image
+
 
 from ..common.config import Config
 from ..common.logger import setup_logger
@@ -190,7 +192,6 @@ class BaseQRGenerator(ABC):
 
     def _get_timestamp(self) -> str:
         """Get current timestamp string."""
-        from datetime import datetime
         return datetime.now().strftime("%Y%m%d_%H%M%S")
 
     def _get_type_name(self) -> str:

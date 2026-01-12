@@ -2,8 +2,8 @@
 
 from typing import Optional
 from decimal import Decimal
-from .base import BaseQRGenerator
 import urllib.parse
+from .base import BaseQRGenerator
 
 
 class PaymentQRGenerator(BaseQRGenerator):

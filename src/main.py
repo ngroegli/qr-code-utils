@@ -8,10 +8,13 @@ A comprehensive toolkit for generating various types of QR codes.
 import sys
 import argparse
 from pathlib import Path
+from datetime import datetime
+from decimal import Decimal
 
 # Add parent directory to path to allow absolute imports from src
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# pylint: disable=wrong-import-position  # Need to modify path before importing from src
 from src.common.config import Config
 from src.common.logger import setup_logger
 from src.core import (
@@ -251,7 +254,6 @@ def handle_location(args, config: Config) -> Path:
 
 def handle_event(args, config: Config) -> Path:
     """Handle event QR code generation."""
-    from datetime import datetime
 
     generator = EventQRGenerator(config)
 
@@ -283,7 +285,6 @@ def handle_whatsapp(args, config: Config) -> Path:
 
 def handle_payment(args, config: Config) -> Path:
     """Handle payment QR code generation."""
-    from decimal import Decimal
 
     generator = PaymentQRGenerator(config)
 
