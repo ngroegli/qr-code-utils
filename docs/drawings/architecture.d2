@@ -1,0 +1,103 @@
+# QR Code Utils Architecture
+
+direction: right
+
+title: {
+  label: QR Code Utils - System Architecture
+  near: top-center
+  shape: text
+  style.font-size: 24
+  style.bold: true
+}
+
+user: User {
+  shape: person
+  style.fill: "#e1f5ff"
+}
+
+main: main.py {
+  label: "main.py\n(CLI Entry Point)"
+  shape: rectangle
+  style.fill: "#c8e6c9"
+}
+
+config: Configuration {
+  src.common.config: {
+    label: "Config Manager\n- Load/Save settings\n- Manage directories"
+    shape: rectangle
+  }
+
+  src.common.logger: {
+    label: "Logger Setup\n- File logging\n- Console output"
+    shape: rectangle
+  }
+
+  style.fill: "#fff9c4"
+}
+
+core: QR Generators {
+  base: BaseQRGenerator {
+    label: "Base Generator\n(Abstract)"
+    shape: diamond
+    style.fill: "#f8bbd0"
+  }
+
+  generators: Specific Generators {
+    url: URL
+    vcard: vCard
+    wifi: WiFi
+    sms: SMS
+    email: Email
+    phone: Phone
+    text: Text
+    location: Location
+    event: Event
+    whatsapp: WhatsApp
+    payment: Payment
+
+    style.fill: "#d1c4e9"
+  }
+
+  style.fill: "#ede7f6"
+}
+
+storage: File System {
+  home: "~/qr-utils/" {
+    config_file: config.json
+    logs: "logs/"
+    output: "output/"
+
+    style.fill: "#ffccbc"
+  }
+
+  style.fill: "#ffecb3"
+}
+
+libs: External Libraries {
+  qrcode: qrcode {
+    shape: hexagon
+  }
+  pil: Pillow (PIL) {
+    shape: hexagon
+  }
+
+  style.fill: "#b2dfdb"
+}
+
+# Connections
+user -> main: "Execute command"
+main -> config: "Initialize"
+main -> core: "Dispatch to generator"
+
+config.src.common.config -> storage.home.config_file: "Read/Write"
+config.src.common.logger -> storage.home.logs: "Write logs"
+
+core.base -> config: "Use settings"
+core.generators -> core.base: "Inherit from"
+core.base -> libs.qrcode: "Generate QR"
+core.base -> libs.pil: "Image processing"
+
+core.generators -> storage.home.output: "Save QR codes"
+
+main -> storage.home.output: "Return path"
+storage.home.output -> user: "QR code file"
