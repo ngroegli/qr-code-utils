@@ -3,18 +3,14 @@
 from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, Any, TYPE_CHECKING
+from typing import Optional, Dict, Any
 from abc import ABC, abstractmethod
 import qrcode
 import qrcode.constants
 from PIL import Image
 
-
 from ..common.config import Config
 from ..common.logger import setup_logger
-
-if TYPE_CHECKING:
-    from PIL.Image import Image as PILImage
 
 
 class BaseQRGenerator(ABC):
