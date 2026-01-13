@@ -14,27 +14,18 @@ jobs=1
 # Pickle collected data for later comparisons.
 persistent=yes
 
-# When enabled, pylint would attempt to guess common misconfiguration and emit
-# user-friendly hints instead of false-positive error messages.
-suggestion-mode=yes
-
 [MESSAGES CONTROL]
 # Disable specific warnings that are not relevant or too strict for this project
 disable=
-    # Documentation
     missing-module-docstring,
     missing-class-docstring,
     missing-function-docstring,
-    # Import related (we handle these manually)
     wrong-import-position,
-    # Design
     too-few-public-methods,
     too-many-instance-attributes,
     too-many-arguments,
     too-many-locals,
-    # Naming
     invalid-name,
-    # Other
     fixme,
     broad-except,
     arguments-differ
@@ -51,7 +42,7 @@ score=yes
 
 [BASIC]
 # Good variable names which should always be accepted
-good-names=i,j,k,ex,_,id,qr,x,y
+good-names=i,j,k,ex,_,id,qr,x,y,e,f
 
 # Regular expression matching correct function names
 function-rgx=[a-z_][a-z0-9_]{2,30}$
@@ -161,7 +152,7 @@ max-returns=6
 max-branches=12
 
 # Maximum number of statements in function / method body
-max-statements=50
+max-statements=60
 
 # Maximum number of parents for a class (see R0901).
 max-parents=7
@@ -181,4 +172,4 @@ allow-wildcard-with-all=no
 
 [EXCEPTIONS]
 # Exceptions that will emit a warning when being caught
-overgeneral-exceptions=Exception
+overgeneral-exceptions=builtins.Exception

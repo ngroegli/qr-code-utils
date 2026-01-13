@@ -36,18 +36,18 @@ class PaymentQRGenerator(BaseQRGenerator):
 
         if payment_type == "bitcoin":
             return self._prepare_bitcoin(recipient, amount, message)
-        elif payment_type == "ethereum":
+        if payment_type == "ethereum":
             return self._prepare_ethereum(recipient, amount, message)
-        elif payment_type == "paypal":
+        if payment_type == "paypal":
             return self._prepare_paypal(recipient, amount, currency, message)
-        else:
-            # Generic format
-            payment_string = f"{payment_type}:{recipient}"
-            if amount:
-                payment_string += f"?amount={amount}"
-            if message:
-                payment_string += f"&message={self._url_encode(message)}"
-            return payment_string
+
+        # Generic format
+        payment_string = f"{payment_type}:{recipient}"
+        if amount:
+            payment_string += f"?amount={amount}"
+        if message:
+            payment_string += f"&message={self._url_encode(message)}"
+        return payment_string
 
     def _prepare_bitcoin(
         self,

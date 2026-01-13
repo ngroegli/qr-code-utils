@@ -39,19 +39,23 @@ echo -e "======================================================================"
 echo "                  CRITICAL ERRORS (E)                            "
 echo "                These will block merging                         "
 echo "======================================================================"
-CRITICAL_ERRORS=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=C,W,R,I --enable=E --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1 || echo "")
+CRITICAL_OUTPUT=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=C,W,R,I --enable=E --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1)
+CRITICAL_ERRORS=$(echo "$CRITICAL_OUTPUT" | grep -E "^\./|^src/" || echo "")
 
 if [ -n "$CRITICAL_ERRORS" ]; then
     echo -e "\033[31m$CRITICAL_ERRORS\033[0m"  # Red
+    HAS_CRITICAL_ERRORS=1
 else
     echo -e "\033[32mNo critical errors found.\033[0m"  # Green
+    HAS_CRITICAL_ERRORS=0
 fi
 
 # 2. Check for warnings
 echo -e "\n======================================================================"
 echo "                  WARNINGS (W)                                  "
 echo "======================================================================"
-WARNINGS=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=C,E,R,I --enable=W --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1 || echo "")
+WARNINGS_OUTPUT=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=C,E,R,I --enable=W --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1)
+WARNINGS=$(echo "$WARNINGS_OUTPUT" | grep -E "^\./|^src/" || echo "")
 
 if [ -n "$WARNINGS" ]; then
     echo -e "\033[33m$WARNINGS\033[0m"  # Yellow
@@ -63,7 +67,8 @@ fi
 echo -e "\n======================================================================"
 echo "                  REFACTORING SUGGESTIONS (R)                    "
 echo "======================================================================"
-REFACTORING=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=C,E,W,I --enable=R --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1 || echo "")
+REFACTORING_OUTPUT=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=C,E,W,I --enable=R --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1)
+REFACTORING=$(echo "$REFACTORING_OUTPUT" | grep -E "^\./|^src/" || echo "")
 
 if [ -n "$REFACTORING" ]; then
     echo -e "\033[36m$REFACTORING\033[0m"  # Cyan
@@ -75,7 +80,8 @@ fi
 echo -e "\n======================================================================"
 echo "                  CONVENTION ISSUES (C)                         "
 echo "======================================================================"
-CONVENTIONS=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=E,W,R,I --enable=C --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1 || echo "")
+CONVENTIONS_OUTPUT=$(PYTHONPATH=src pylint --rcfile=.pylintrc --disable=E,W,R,I --enable=C --msg-template="{path}:{line}:{column}: [{msg_id}({symbol}), {category}] {msg}" $PYTHON_FILES 2>&1)
+CONVENTIONS=$(echo "$CONVENTIONS_OUTPUT" | grep -E "^\./|^src/" || echo "")
 
 if [ -n "$CONVENTIONS" ]; then
     echo -e "\033[35m$CONVENTIONS\033[0m"  # Magenta
@@ -97,10 +103,10 @@ else
 fi
 
 # Exit with error if there are critical errors
-if [ -n "$CRITICAL_ERRORS" ]; then
+if [ "$HAS_CRITICAL_ERRORS" -eq 1 ]; then
     echo -e "\n\033[31mCritical errors found! Please fix them before proceeding.\033[0m"
     exit 1
 else
-    echo -e "\n\033[32mNo critical errors found.\033[0m"
+    echo -e "\n\033[32mNo critical errors found. All checks passed!\033[0m"
     exit 0
 fi

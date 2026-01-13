@@ -7,7 +7,8 @@ from .base import BaseQRGenerator
 class VCardQRGenerator(BaseQRGenerator):
     """Generate QR codes for vCard contact information."""
 
-    # pylint: disable=arguments-differ  # Keyword-only params are more specific than base **kwargs
+    # pylint: disable=arguments-differ,too-many-arguments
+    # Many arguments needed for comprehensive vCard support
     def prepare_data(
         self,
         *,
