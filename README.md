@@ -2,7 +2,7 @@
 
 A comprehensive, modular toolkit for generating various types of QR codes with an easy-to-use command-line interface.
 
-[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/ngroegli/qr-code-utils)
+[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/ngroegli/qr-code-utils)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
