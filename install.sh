@@ -153,7 +153,7 @@ install_dependencies() {
 create_default_config() {
     print_step "Creating default configuration..."
 
-    CONFIG_FILE="$CONFIG_DIR/config.json"
+    CONFIG_FILE="$CONFIG_DIR/config.yml"
 
     if [ -f "$CONFIG_FILE" ]; then
         print_warning "Config file already exists at $CONFIG_FILE"
@@ -165,22 +165,18 @@ create_default_config() {
         fi
     fi
 
-    cat > "$CONFIG_FILE" << EOF
-{
-  "qr_settings": {
-    "version": 1,
-    "error_correction": "H",
-    "box_size": 10,
-    "border": 4,
-    "fill_color": "black",
-    "back_color": "white"
-  },
-  "output_format": "png",
-  "default_output_dir": "$OUTPUT_DIR",
-  "vcard_defaults": {
-    "version": "3.0"
-  }
-}
+    cat > "$CONFIG_FILE" << 'EOF'
+qr_settings:
+  version: 1
+  error_correction: H
+  box_size: 10
+  border: 4
+  fill_color: black
+  back_color: white
+output_format: png
+default_output_dir: ~/.qr-utils/output
+vcard_defaults:
+  version: '3.0'
 EOF
 
     print_success "Default configuration created at $CONFIG_FILE"

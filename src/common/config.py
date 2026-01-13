@@ -1,15 +1,14 @@
 """Configuration management for QR Code Utils."""
 
-import json
 from pathlib import Path
 from typing import Any, Dict, Optional
-
+import yaml
 
 class Config:
     """Manages application configuration."""
 
     DEFAULT_CONFIG_DIR = Path.home() / ".qr-utils"
-    DEFAULT_CONFIG_FILE = "config.json"
+    DEFAULT_CONFIG_FILE = "config.yml"
     DEFAULT_LOGS_DIR = "logs"
     DEFAULT_OUTPUT_DIR = "output"
 
@@ -48,8 +47,8 @@ class Config:
         if self.config_file.exists():
             try:
                 with open(self.config_file, 'r', encoding='utf-8') as f:
-                    self._config = json.load(f)
-            except json.JSONDecodeError:
+                    self._config = yaml.safe_load(f)
+            except yaml.YAMLError:
                 print(f"Warning: Could not parse {self.config_file}. Using defaults.")
                 self._config = self._get_default_config()
         else:
@@ -70,7 +69,7 @@ class Config:
     def _save_config(self):
         """Save configuration to file."""
         with open(self.config_file, 'w', encoding='utf-8') as f:
-            json.dump(self._config, f, indent=2)
+            yaml.dump(self._config, f, default_flow_style=False, sort_keys=False)
 
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value.

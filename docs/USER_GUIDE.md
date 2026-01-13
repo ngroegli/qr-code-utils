@@ -327,21 +327,19 @@ qr-utils url --url "https://example.com" --config-dir /path/to/config
 
 ## Configuration
 
-Configuration is stored in `~/.qr-utils/config.json`:
+Configuration is stored in `~/.qr-utils/config.yml`:
 
-```json
-{
-  "qr_settings": {
-    "version": 1,
-    "error_correction": "H",
-    "box_size": 10,
-    "border": 4,
-    "fill_color": "black",
-    "back_color": "white"
-  },
-  "output_format": "png",
-  "default_output_dir": "/home/user/.qr-utils/output"
-}
+```yaml
+qr_settings:
+  version: 1
+  error_correction: H  # L, M, Q, or H
+  box_size: 10
+  border: 4
+  fill_color: black
+  back_color: white
+
+output_format: png
+default_output_dir: /home/user/.qr-utils/output
 ```
 
 ### QR Settings
@@ -436,7 +434,7 @@ chmod +x main.py
 **5. Configuration not loading**
 ```bash
 # Reset configuration
-rm -rf ~/.qr-utils/config.json
+rm -rf ~/.qr-utils/config.yml
 qr-utils url --url "https://example.com"
 ```
 
@@ -452,7 +450,7 @@ tail -f ~/.qr-utils/logs/qr-utils_$(date +%Y%m%d).log
 
 ```
 ~/.qr-utils/
-├── config.json         # Configuration file
+├── config.yml         # Configuration file
 ├── logs/              # Log files
 │   └── qr-utils_YYYYMMDD.log
 └── output/            # Generated QR codes (if no output path specified)

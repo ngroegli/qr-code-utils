@@ -3,7 +3,7 @@
 direction: down
 
 title: {
-  label: Class Hierarchy & Relationships
+  label: Class Hierarchy and Relationships
   near: top-center
   shape: text
   style.font-size: 24
@@ -11,150 +11,98 @@ title: {
 }
 
 base: BaseQRGenerator {
-  label: "«abstract»\nBaseQRGenerator"
-
-  attributes: "- config: Config\n- logger: Logger\n- qr_settings: Dict"
-
-  methods: "+ __init__(config)\n+ prepare_data(**kwargs): str «abstract»\n+ create_qr_code(data, settings): Image\n+ add_logo(qr_image, logo_path): Image\n+ generate(**kwargs): Path"
-
   shape: class
   style.fill: "#f8bbd0"
-  style.font-size: 14
 }
 
 url: URLQRGenerator {
-  label: "URLQRGenerator"
-  methods: "+ prepare_data(url): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 vcard: VCardQRGenerator {
-  label: "VCardQRGenerator"
-  methods: "+ prepare_data(first_name, last_name, ...): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 wifi: WiFiQRGenerator {
-  label: "WiFiQRGenerator"
-  methods: "+ prepare_data(ssid, password, ...): str\n- _escape_special_chars(text): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 sms: SMSQRGenerator {
-  label: "SMSQRGenerator"
-  methods: "+ prepare_data(phone_number, message): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 email: EmailQRGenerator {
-  label: "EmailQRGenerator"
-  methods: "+ prepare_data(email, subject, body): str\n- _url_encode(text): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 phone: PhoneQRGenerator {
-  label: "PhoneQRGenerator"
-  methods: "+ prepare_data(phone_number): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 text: TextQRGenerator {
-  label: "TextQRGenerator"
-  methods: "+ prepare_data(text): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 location: LocationQRGenerator {
-  label: "LocationQRGenerator"
-  methods: "+ prepare_data(latitude, longitude, query): str\n- _url_encode(text): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 event: EventQRGenerator {
-  label: "EventQRGenerator"
-  methods: "+ prepare_data(title, start_time, end_time, ...): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 whatsapp: WhatsAppQRGenerator {
-  label: "WhatsAppQRGenerator"
-  methods: "+ prepare_data(phone_number, message): str\n- _url_encode(text): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
 payment: PaymentQRGenerator {
-  label: "PaymentQRGenerator"
-  methods: "+ prepare_data(payment_type, recipient, ...): str\n- _prepare_bitcoin(...): str\n- _prepare_ethereum(...): str\n- _prepare_paypal(...): str\n- _url_encode(text): str"
   shape: class
   style.fill: "#d1c4e9"
 }
 
-config_class: Config {
-  label: "Config"
-  attributes: "- config_dir: Path\n- config_file: Path\n- logs_dir: Path\n- output_dir: Path\n- _config: Dict"
-  methods: "+ __init__(config_dir)\n+ get(key, default): Any\n+ set(key, value, save)\n+ get_qr_settings(): Dict\n+ get_output_path(filename): Path\n- _load_config()\n- _save_config()"
+config: Config {
   shape: class
   style.fill: "#fff9c4"
 }
 
-# Inheritance relationships
-base -> url: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> vcard: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> wifi: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> sms: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> email: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> phone: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> text: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> location: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> event: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> whatsapp: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
-}
-base -> payment: extends {
-  style.stroke: "#666"
-  style.stroke-width: 2
+logger: Logger {
+  shape: class
+  style.fill: "#fff9c4"
 }
 
-# Composition relationship
-base -> config_class: uses {
-  style.stroke-dash: 3
-  style.stroke: "#333"
+qrcode_lib: qrcode {
+  shape: hexagon
+  style.fill: "#b2dfdb"
 }
+
+pil_image: PIL-Image {
+  shape: hexagon
+  style.fill: "#b2dfdb"
+}
+
+base -> url
+base -> vcard
+base -> wifi
+base -> sms
+base -> email
+base -> phone
+base -> text
+base -> location
+base -> event
+base -> whatsapp
+base -> payment
+
+base -> config: uses
+base -> logger: uses
+base -> qrcode_lib: creates
+base -> pil_image: uses

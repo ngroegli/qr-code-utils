@@ -3,7 +3,7 @@
 direction: right
 
 title: {
-  label: QR Code Utils - System Architecture
+  label: QR Code Utils v1.0 - System Architecture
   near: top-center
   shape: text
   style.font-size: 24
@@ -15,45 +15,55 @@ user: User {
   style.fill: "#e1f5ff"
 }
 
-main: main.py {
-  label: "main.py\n(CLI Entry Point)"
-  shape: rectangle
-  style.fill: "#c8e6c9"
-}
-
-config: Configuration {
-  src.common.config: {
-    label: "Config Manager\n- Load/Save settings\n- Manage directories"
+cli: CLI Interface {
+  main: main.py {
+    label: "main.py\nArgument Parser\nCLI Entry Point"
     shape: rectangle
+    style.fill: "#c8e6c9"
   }
 
-  src.common.logger: {
-    label: "Logger Setup\n- File logging\n- Console output"
+  qr_utils: qr-utils.sh {
+    label: "qr-utils.sh\nShell Wrapper"
     shape: rectangle
+    style.fill: "#c8e6c9"
   }
-
-  style.fill: "#fff9c4"
 }
 
-core: QR Generators {
+common: Common Modules {
+  config: Config {
+    label: "Config Manager\n- ~/qr-utils/ directory\n- settings.json\n- output/logs paths"
+    shape: rectangle
+    style.fill: "#fff9c4"
+  }
+
+  logger: Logger {
+    label: "Logger Setup\n- File logging\n- Console output\n- Colored output"
+    shape: rectangle
+    style.fill: "#fff9c4"
+  }
+
+  style.fill: "#fffde7"
+}
+
+core: QR Generator Core {
   base: BaseQRGenerator {
-    label: "Base Generator\n(Abstract)"
+    label: "BaseQRGenerator\n(Abstract Base Class)\n\n+ prepare_data()\n+ create_qr_code()\n+ add_logo()\n+ generate()"
     shape: diamond
     style.fill: "#f8bbd0"
   }
 
-  generators: Specific Generators {
-    url: URL
-    vcard: vCard
-    wifi: WiFi
-    sms: SMS
-    email: Email
-    phone: Phone
-    text: Text
-    location: Location
-    event: Event
-    whatsapp: WhatsApp
-    payment: Payment
+  generators: 11 Specific Generators {
+    url: "URLQRGenerator"
+    vcard: "VCardQRGenerator"
+    wifi: "WiFiQRGenerator"
+    sms: "SMSQRGenerator"
+    email: "EmailQRGenerator"
+    phone: "PhoneQRGenerator"
+    text: "TextQRGenerator"
+    location: "LocationQRGenerator"
+    event: "EventQRGenerator"
+    whatsapp: "WhatsAppQRGenerator"
+    payment: "PaymentQRGenerator"
 
     style.fill: "#d1c4e9"
   }
@@ -63,7 +73,7 @@ core: QR Generators {
 
 storage: File System {
   home: "~/qr-utils/" {
-    config_file: config.json
+    config_file: settings.json
     logs: "logs/"
     output: "output/"
 
@@ -75,9 +85,11 @@ storage: File System {
 
 libs: External Libraries {
   qrcode: qrcode {
+    label: "qrcode\nQR generation"
     shape: hexagon
   }
   pil: Pillow (PIL) {
+    label: "Pillow\nImage processing"
     shape: hexagon
   }
 
@@ -85,17 +97,17 @@ libs: External Libraries {
 }
 
 # Connections
-user -> main: "Execute command"
-main -> config: "Initialize"
-main -> core: "Dispatch to generator"
-
-config.src.common.config -> storage.home.config_file: "Read/Write"
-config.src.common.logger -> storage.home.logs: "Write logs"
-
-core.base -> config: "Use settings"
-core.generators -> core.base: "Inherit from"
-core.base -> libs.qrcode: "Generate QR"
-core.base -> libs.pil: "Image processing"
+user -> cli.qr_utils: "Execute ./qr-utils.sh"
+cli.qr_utils -> cli.main: "Run Python script"
+cli.main -> common.config: "Load configuration"
+cli.main -> common.logger: "Setup logging"
+cli.main -> core.base: "Select generator"
+core.base -> core.generators: "Instantiate specific"
+core.generators -> libs.qrcode: "Generate QR code"
+core.generators -> libs.pil: "Process image + logo"
+core.generators -> storage.home.output: "Save QR image"
+common.config -> storage.home.config_file: "Read/Write settings"
+common.logger -> storage.home.logs: "Write logs"
 
 core.generators -> storage.home.output: "Save QR codes"
 

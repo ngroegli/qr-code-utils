@@ -10,127 +10,88 @@ title: {
   style.bold: true
 }
 
-start: Start {
+start: User executes qr-utils.sh {
   shape: oval
   style.fill: "#c8e6c9"
 }
 
-cli_input: User provides CLI arguments {
-  shape: parallelogram
-  style.fill: "#e1f5ff"
-}
-
-parse: Parse arguments\nwith argparse {
+parse: Parse CLI Arguments {
   shape: rectangle
   style.fill: "#fff9c4"
 }
 
-init_config: Initialize Config\n~/qr-utils/ {
+validate: Validate QR type {
+  shape: diamond
+  style.fill: "#ffccbc"
+}
+
+init_config: Initialize Config {
   shape: rectangle
   style.fill: "#fff9c4"
 }
 
-init_logger: Setup Logger\nto logs/ directory {
+init_logger: Setup Logger {
   shape: rectangle
   style.fill: "#fff9c4"
 }
 
-select_generator: Select appropriate\nQR Generator {
+select: Select Generator {
   shape: diamond
   style.fill: "#f8bbd0"
 }
 
-url_gen: URLQRGenerator {
+generator: Specific Generator {
   shape: rectangle
   style.fill: "#d1c4e9"
 }
 
-vcard_gen: VCardQRGenerator {
+prepare: prepare_data {
   shape: rectangle
-  style.fill: "#d1c4e9"
+  style.fill: "#b39ddb"
 }
 
-wifi_gen: WiFiQRGenerator {
+create: create_qr_code {
   shape: rectangle
-  style.fill: "#d1c4e9"
-}
-
-other_gen: Other Generators... {
-  shape: rectangle
-  style.fill: "#d1c4e9"
-}
-
-prepare_data: prepare_data()\nFormat data for QR {
-  shape: rectangle
-  style.fill: "#ffccbc"
-}
-
-create_qr: create_qr_code()\nGenerate QR image {
-  shape: rectangle
-  style.fill: "#ffccbc"
+  style.fill: "#b39ddb"
 }
 
 check_logo: Logo provided? {
   shape: diamond
-  style.fill: "#f8bbd0"
-}
-
-add_logo: add_logo()\nEmbed logo in center {
-  shape: rectangle
   style.fill: "#ffccbc"
 }
 
-save_file: Save QR code to\noutput/ directory {
+add_logo: add_logo {
   shape: rectangle
-  style.fill: "#b2dfdb"
+  style.fill: "#b39ddb"
 }
 
-success: Display success message\nwith file path {
-  shape: parallelogram
-  style.fill: "#c8e6c9"
+save: Save QR Image {
+  shape: rectangle
+  style.fill: "#a5d6a7"
 }
 
-end: End {
+end: QR Code Generated {
   shape: oval
   style.fill: "#c8e6c9"
 }
 
-error: Error Handler\nLog & display error {
+error: Error occurred {
   shape: rectangle
-  style.fill: "#ffcdd2"
+  style.fill: "#ef9a9a"
 }
 
-# Flow
-start -> cli_input
-cli_input -> parse
-parse -> init_config
-init_config -> init_logger
-init_logger -> select_generator
-
-select_generator -> url_gen: "url command"
-select_generator -> vcard_gen: "vcard command"
-select_generator -> wifi_gen: "wifi command"
-select_generator -> other_gen: "other commands"
-
-url_gen -> prepare_data
-vcard_gen -> prepare_data
-wifi_gen -> prepare_data
-other_gen -> prepare_data
-
-prepare_data -> create_qr
-create_qr -> check_logo
-
-check_logo -> add_logo: "Yes"
-check_logo -> save_file: "No"
-add_logo -> save_file
-
-save_file -> success
-success -> end
-
-# Error handling
-parse -> error: "Parse error" {style.stroke-dash: 3}
-prepare_data -> error: "Data error" {style.stroke-dash: 3}
-create_qr -> error: "QR error" {style.stroke-dash: 3}
-add_logo -> error: "Logo error" {style.stroke-dash: 3}
-save_file -> error: "I/O error" {style.stroke-dash: 3}
+start -> parse
+parse -> validate
+validate -> init_config: valid
+validate -> error: invalid
 error -> end
+init_config -> init_logger
+init_logger -> select
+select -> generator
+generator -> prepare
+prepare -> create
+create -> check_logo
+check_logo -> add_logo: yes
+check_logo -> save: no
+add_logo -> save
+save -> end

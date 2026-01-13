@@ -1,22 +1,22 @@
-# QR Code Utils
+# QR Utils
 
 A comprehensive, modular toolkit for generating various types of QR codes with an easy-to-use command-line interface.
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/ngroegli/qr-code-utils)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/ngroegli/qr-code-utils)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-## ✨ Features
+## Features
 
-- 🎯 **11 QR Code Types**: URL, vCard, WiFi, SMS, Email, Phone, Text, Location, Event, WhatsApp, Payment
-- 🎨 **Logo Embedding**: Add custom logos to QR code centers
-- ⚙️ **Configurable**: Centralized configuration with sensible defaults
-- 📝 **Comprehensive Logging**: Track all operations with detailed logs
-- 🚀 **Easy to Use**: Simple, intuitive CLI interface
-- 🏗️ **Modular Architecture**: Clean, extensible codebase
-- 📚 **Well Documented**: Complete user guide and API reference
+- **11 QR Code Types**: URL, vCard, WiFi, SMS, Email, Phone, Text, Location, Event, WhatsApp, Payment
+- **Logo Embedding**: Add custom logos to QR code centers
+- **Configurable**: Centralized configuration with sensible defaults
+- **Comprehensive Logging**: Track all operations with detailed logs
+- **Easy to Use**: Simple, intuitive CLI interface
+- **Modular Architecture**: Clean, extensible codebase
+- **Well Documented**: Complete user guide and API reference
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -52,7 +52,7 @@ qr-utils wifi --ssid "MyNetwork" --password "MyPassword"
 qr-utils vcard --first-name "John" --last-name "Doe" --email "john@example.com"
 ```
 
-## 📋 Supported QR Code Types
+## Supported QR Code Types
 
 | Type | Description | Example Use Case |
 |------|-------------|------------------|
@@ -68,7 +68,7 @@ qr-utils vcard --first-name "John" --last-name "Doe" --email "john@example.com"
 | **WhatsApp** | WhatsApp messages | Direct messaging |
 | **Payment** | Bitcoin, Ethereum, PayPal | Receive payments |
 
-## 📖 Usage Examples
+## Usage Examples
 
 ### URL with Logo
 
@@ -121,7 +121,7 @@ qr-utils payment \
   -o bitcoin_qr.png
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 qr-code-utils/
@@ -165,7 +165,7 @@ Configuration & Output (~/.qr-utils/):
 └── output/               # Generated QR codes
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 Configuration is stored in `~/..qr-utils/config.json`:
 
@@ -191,7 +191,7 @@ Configuration is stored in `~/..qr-utils/config.json`:
 - **Q**: ~25% correction
 - **H**: ~30% correction (recommended for logos)
 
-## 📚 Documentation
+## Documentation
 
 - **[User Guide](docs/USER_GUIDE.md)**: Complete usage guide with examples
 - **[API Reference](docs/API_REFERENCE.md)**: Detailed API documentation
@@ -200,7 +200,7 @@ Configuration is stored in `~/..qr-utils/config.json`:
   - `flow.d2`: Generation flow
   - `classes.d2`: Class hierarchy
 
-## 🔧 Development
+## Development
 
 ### Installing for Development
 
@@ -242,7 +242,7 @@ class CustomQRGenerator(BaseQRGenerator):
         return f"CUSTOM:{custom_param}"
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -252,16 +252,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [python-qrcode](https://github.com/lincolnloop/python-qrcode) - QR code generation library
 - [Pillow](https://python-pillow.org/) - Python Imaging Library
 
-## 📊 Architecture
+## Architecture
 
 ```
 ┌─────────┐
@@ -270,38 +270,35 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
      │ CLI Command
      ▼
 ┌──────────────────┐
-│  src/main.py     │──────┐
-└─────┬────────────┘      │
-      │                   │ Initialize
-      ▼                   ▼
-┌──────────┐   ┌──────────┐
-│ Config   │   │ Logger   │
-└──────────┘   └──────────┘
-      │              │
-      └──────┬───────┘
-             ▼
-    ┌────────────────┐
-    │ QR Generators  │
-    ├────────────────┤
-    │ • URL          │
-    │ • vCard        │
-    │ • WiFi         │
-    │ • SMS          │
-    │ • Email        │
-    │ • Phone        │
-    │ • Text         │
-    │ • Location     │
-    │ • Event        │
-    │ • WhatsApp     │
-    │ • Payment      │
-    └────────┬───────┘
-             ▼
-      ┌─────────────┐
-      │ QR Code PNG │
-      └─────────────┘
+│  src/main.py     │
+│  (CLI Handler)   │
+└─────┬────────────┘
+      │
+      │ Initializes & Uses
+      ├─────────────┬─────────────┐
+      ▼             ▼             ▼
+┌──────────┐  ┌──────────┐  ┌────────────────┐
+│ Config   │  │ Logger   │  │ QR Generators  │
+│ (Shared) │  │ (Shared) │  ├────────────────┤
+└──────────┘  └──────────┘  │ • URL          │
+                             │ • vCard        │
+                             │ • WiFi         │
+                             │ • SMS          │
+                             │ • Email        │
+                             │ • Phone        │
+                             │ • Text         │
+                             │ • Location     │
+                             │ • Event        │
+                             │ • WhatsApp     │
+                             │ • Payment      │
+                             └────────┬───────┘
+                                      ▼
+                               ┌─────────────┐
+                               │ QR Code PNG │
+                               └─────────────┘
 ```
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - [ ] GUI interface
 - [ ] Batch QR code generation
@@ -312,7 +309,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 - [ ] QR code templates
 - [ ] Web API interface
 
-## 📞 Support
+## Support
 
 If you encounter any issues or have questions:
 

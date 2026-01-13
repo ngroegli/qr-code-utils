@@ -1,3 +1,4 @@
 qrcode==8.2
 Pillow==12.1.0
+PyYAML==6.0.3
 pylint==4.0.4

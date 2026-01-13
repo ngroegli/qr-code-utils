@@ -118,7 +118,7 @@ qr-utils payment \
 
 | Purpose | Location |
 |---------|----------|
-| Configuration | `~/.qr-utils/config.json` |
+| Configuration | `~/.qr-utils/config.yml` |
 | Logs | `~/.qr-utils/logs/` |
 | Output (default) | `~/.qr-utils/output/` |
 | Virtual Environment | `./venv/` |
@@ -126,13 +126,11 @@ qr-utils payment \
 
 ## Error Correction Levels
 
-Edit `~/.qr-utils/config.json`:
+Edit `~/.qr-utils/config.yml`:
 
-```json
-{
-  "qr_settings": {
-    "error_correction": "H"
-  }
+```yaml
+qr_settings:
+  error_correction: H  # L, M, Q, or H
 }
 ```
 
@@ -144,16 +142,13 @@ Edit `~/.qr-utils/config.json`:
 ## Customization
 
 ### QR Code Appearance
-Edit `~/.qr-utils/config.json`:
-```json
-{
-  "qr_settings": {
-    "box_size": 10,
-    "border": 4,
-    "fill_color": "black",
-    "back_color": "white"
-  }
-}
+Edit `~/.qr-utils/config.yml`:
+```yaml
+qr_settings:
+  box_size: 10
+  border: 4
+  fill_color: black
+  back_color: white
 ```
 
 ### Custom Colors
@@ -175,7 +170,7 @@ tail -f ~/.qr-utils/logs/qr-utils_$(date +%Y%m%d).log
 
 ### Reset Configuration
 ```bash
-rm ~/.qr-utils/config.json
+rm ~/.qr-utils/config.yml
 qr-utils url --url "test"  # Recreates config
 ```
 
@@ -247,10 +242,3 @@ qr-utils url --help
 qr-utils vcard --help
 qr-utils wifi --help
 ```
-
-## Documentation
-
-- **Full Guide**: `docs/USER_GUIDE.md`
-- **API Docs**: `docs/API_REFERENCE.md`
-- **Migration**: `MIGRATION_GUIDE.md`
-- **Architecture**: `docs/drawings/*.d2`
