@@ -3,7 +3,6 @@ Unit tests for the Config class.
 """
 import os
 import sys
-import json
 import tempfile
 from pathlib import Path
 
