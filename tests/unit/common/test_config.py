@@ -139,18 +139,19 @@ class TestConfig(BaseUnitTest):
                 )
 
                 # Test that config file was created
-                config_file = config_dir / "config.json"
+                config_file = config_dir / "config.yml"
                 self.assert_true(
                     config_file.exists(),
                     "config_paths_file_exists",
                     "Config file exists"
                 )
 
-                # Test that config file is valid JSON
+                # Test that config file is valid YAML
+                import yaml
                 with open(config_file, 'r', encoding='utf-8') as file:
-                    data = json.load(file)
+                    data = yaml.safe_load(file)
                     self.assert_not_none(
-                        data, "config_paths_valid_json", "Config file is valid JSON"
+                        data, "config_paths_valid_yaml", "Config file is valid YAML"
                     )
         except Exception as exc:
             self.add_result("config_paths", False, f"Config paths test failed: {exc}")
