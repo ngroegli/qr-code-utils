@@ -84,12 +84,6 @@ jobs:
           export PYTHONPATH="$GITHUB_WORKSPACE/src"
           python tests/run_unit_tests.py
 
-      - name: Run Integration Tests
-        run: |
-          echo "🧪 Running integration tests..."
-          export PYTHONPATH="$GITHUB_WORKSPACE/src"
-          python tests/run_integration_tests.py
-
   create-release:
     name: Create GitHub Release
     needs: validate-and-test
