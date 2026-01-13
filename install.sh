@@ -27,7 +27,7 @@ VENV_DIR="$SCRIPT_DIR/venv"
 print_header() {
     echo -e "${BLUE}"
     echo "╔════════════════════════════════════════════════╗"
-    echo "║        QR Code Utils - Installer v2.0         ║"
+    echo "║       QR Code Utils - Installer v1.0.2        ║"
     echo "╚════════════════════════════════════════════════╝"
     echo -e "${NC}"
 }
